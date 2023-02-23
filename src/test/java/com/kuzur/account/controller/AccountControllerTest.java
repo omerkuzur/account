@@ -23,8 +23,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.math.BigDecimal;
 import java.time.Clock;
@@ -68,7 +66,7 @@ class AccountControllerTest {
     @Autowired
     private AccountDtoConverter converter;
 
-    private AccountService service = new AccountService(accountRepository, customerService, converter);
+    private AccountService service = new AccountService(accountRepository, customerService, converter, clock);
     private ObjectMapper mapper =new ObjectMapper();
 
 
