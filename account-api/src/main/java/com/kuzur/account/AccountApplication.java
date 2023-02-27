@@ -26,7 +26,16 @@ public class AccountApplication implements CommandLineRunner {
 		SpringApplication.run(AccountApplication.class, args);
 	}
 
-
+	@Bean
+	public OpenAPI customOpenAPI(@Value("${application-description}") String description,
+								 @Value("${application-version}") String version){
+		return new OpenAPI()
+				.info(new Info()
+						.title("Account API")
+						.version(version)
+						.description(description)
+						.license(new License().name("Account API Licence")));
+	}
 
 	@Bean
 	public Clock clock() {
@@ -36,7 +45,7 @@ public class AccountApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args)  {
 		Customer customer = customerRepository.save(new Customer("omer", "kzr"));
-		Customer customer2 = customerRepository.save(new Customer("kzr", "omer"));
+		Customer customer2 = customerRepository.save(new Customer("ali", "veli"));
 
 		System.out.println(customer);
 		System.out.println(customer2);

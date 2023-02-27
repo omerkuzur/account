@@ -1,11 +1,11 @@
 package com.kuzur.account.service;
 
+import com.kuzur.account.TestSupport;
 import com.kuzur.account.dto.CustomerDto;
 import com.kuzur.account.dto.CustomerDtoConverter;
 import com.kuzur.account.exception.CustomerNotFoundException;
 import com.kuzur.account.model.Customer;
 import com.kuzur.account.repository.CustomerRepository;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,7 +13,8 @@ import org.mockito.Mockito;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 class CustomerServiceTest {
@@ -55,18 +56,18 @@ class CustomerServiceTest {
 
     @Test
     public void testGetCustomerById_whenCustomerIdExists_shouldReturnCustomer(){
-        Customer customer =new Customer("id", "name", "surname", Set.of());
-        CustomerDto customerDto = new CustomerDto("id", "name", "surname", Set.of());
+        Customer customer = generateCustomer();
 
+        Mockito.when(customerRepository.findById("customer-id")).thenReturn(Optional.of(customer));
 
-        Mockito.when(customerRepository.findById("id")).thenReturn(Optional.of(customer));
-
-        Mockito.when(converter.converToCustomerDto(customer)).thenReturn(customerDto);
-
-        CustomerDto result = service.getCustomerById("id");
+        Customer result = service.findByCustomerById("customer-id");
 
         assertEquals(result,
-                customerDto);
+                customer);
+    }
+
+    private Customer generateCustomer() {
+        return new Customer("customer-id", "customer-name", "customer-surname", Set.of());
     }
 
     @Test
